@@ -24,7 +24,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
 
       - name: Install Node.js dependencies
         run: npm ci
@@ -41,8 +40,10 @@ jobs:
         with:
           name: test-reports
           path: |
-            target/surefire-reports/
-            target/site/jacoco/
+            target/surefire-reports/**/*
+            target/failsafe-reports/**/*
+            target/site/jacoco/**/*
+          if-no-files-found: ignore
 
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -64,7 +65,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
 
       - name: Install Node.js dependencies
         run: npm ci
