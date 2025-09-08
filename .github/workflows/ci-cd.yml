@@ -2,9 +2,9 @@ name: JHipster CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
 
 jobs:
   test:
@@ -73,9 +73,9 @@ jobs:
         run: |
           ./mvnw clean package -Pprod -DskipTests
 
-      - name: Build Docker image
+      - name: Build Docker image with Jib
         run: |
-          docker build -t jhipster-app:latest .
+          ./mvnw compile jib:dockerBuild
 
       - name: Deploy to staging
         run: |
