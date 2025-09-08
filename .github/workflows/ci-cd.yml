@@ -18,21 +18,20 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: 'gradle'
+          cache: 'maven'
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'npm'
-          cache-dependency-path: package-lock.json
 
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
+      - name: Install Node.js dependencies
+        run: npm ci
 
       - name: Build and test application
         run: |
-          ./gradlew clean test
+          ./mvnw clean test
         env:
           SPRING_PROFILES_ACTIVE: test
 
@@ -42,8 +41,8 @@ jobs:
         with:
           name: test-reports
           path: |
-            build/reports/tests/
-            build/reports/jacoco/
+            target/surefire-reports/
+            target/site/jacoco/
 
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -59,11 +58,20 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: 'gradle'
+          cache: 'maven'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Node.js dependencies
+        run: npm ci
 
       - name: Build application
         run: |
-          ./gradlew clean assemble -Pprod -x test
+          ./mvnw clean package -Pprod -DskipTests
 
       - name: Build Docker image
         run: |
