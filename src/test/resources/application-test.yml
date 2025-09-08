@@ -1,0 +1,90 @@
+# Test Configuration for JHipster Sample Application
+# This configuration is used during test execution
+
+# Spring Boot configuration
+spring:
+  # Test database configuration (H2 in-memory)
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  
+  # JPA/Hibernate configuration for tests
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        jdbc:
+          time_zone: UTC
+  
+  # Liquibase configuration for tests
+  liquibase:
+    enabled: false
+  
+  # Test security configuration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9999/auth/realms/jhipster
+  
+  # Disable unnecessary features in tests
+  mail:
+    host: localhost
+    port: 25
+    username: test
+    password: test
+  
+  cache:
+    type: simple
+
+  # OpenAPI/Swagger configuration for tests
+  mvc:
+    problemdetails:
+      enabled: true
+
+# SpringDoc OpenAPI Configuration for tests
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
+# Logging configuration for tests
+logging:
+  level:
+    org.springframework: WARN
+    org.springframework.web: WARN
+    org.springframework.security: WARN
+    org.hibernate: WARN
+    io.github.jhipster.sample: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# Management endpoints for testing
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,openapi
+      base-path: /management
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+  info:
+    git:
+      mode: full
+
+# Application specific test properties
+application:
+  name: JHipster Sample Application (Test)
+  version: 0.0.1-SNAPSHOT
+  description: Test configuration for build automation demo

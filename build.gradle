@@ -81,6 +81,9 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.11.3')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     
+    // Undertow for web server testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-undertow'
+    
     // Test containers for integration testing
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:postgresql'
